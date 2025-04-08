@@ -75,7 +75,8 @@ Many individuals possess digital books (e.g., PDFs) that they wish to share, but
 - Add features for:
 	- A dashboard showing all uploaded and rented books.
 	- Notifications for book return deadlines and availability.
-        - Implement an activity feed where users can see newly uploaded books.
+ 	- Implement an activity feed where users can see newly uploaded books.
+        
 
 ### Week 7: Finalization and Optimization
 
