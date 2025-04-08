@@ -45,7 +45,7 @@ Many individuals possess digital books (e.g., PDFs) that they wish to share, but
 - Use CSS/Tailwind/Bootstrap to style the pages for a clean, responsive design.
 
 
-### Week 3-4: Backend Development
+### Week 3-4: BACKEND DEVELOPMENT
 
 **1) SERVER SETUP :**
 - Design schemas for users, books, rentals, and notifications.
@@ -53,9 +53,9 @@ Many individuals possess digital books (e.g., PDFs) that they wish to share, but
 
 **2) API DEVELOPMENT**
 - Create RESTful APIs for:
-	-	CRUD operations on books and rentals.
-	-	User profile management.
-	-	Notifications and book availability checks.
+	- CRUD operations on books and rentals.
+	- User profile management.
+	- Notifications and book availability checks.
 - Add middleware for security and error handling.
 
 
@@ -73,9 +73,9 @@ Many individuals possess digital books (e.g., PDFs) that they wish to share, but
 ### Week 6: Community and Notifications
 
 - Add features for:
-	 -	A dashboard showing all uploaded and rented books.
-	 -	Notifications for book return deadlines and availability.
-     -  Implement an activity feed where users can see newly uploaded books.
+	- A dashboard showing all uploaded and rented books.
+	- Notifications for book return deadlines and availability.
+        - Implement an activity feed where users can see newly uploaded books.
 
 ### Week 7: Finalization and Optimization
 
