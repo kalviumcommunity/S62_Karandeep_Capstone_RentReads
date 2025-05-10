@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const Rental = require('../Models/rental.schema');  
 // GET all rentals
 router.get('/', async (req, res) => {
   try {

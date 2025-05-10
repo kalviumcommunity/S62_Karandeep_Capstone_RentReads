@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const User = require('../Models/user.schema');
 // GET all users
 router.get('/', async (req, res) => {
   try {
