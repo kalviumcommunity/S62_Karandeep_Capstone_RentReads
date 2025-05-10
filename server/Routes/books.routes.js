@@ -55,4 +55,21 @@ router.post('/', async (req, res) => {
     }
   });
 
+// PUT: Update a book
+router.put('/:id', async (req, res) => {
+  const { title, author, pdfUrl, coverUrl } = req.body;
+
+  try {
+    const updatedBook = await Book.findByIdAndUpdate(
+      req.params.id,
+      { title, author, pdfUrl, coverUrl },
+      { new: true }
+    );
+    if (!updatedBook) return res.status(404).json({ error: 'Book not found' });
+    res.json(updatedBook);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update book' });
+  }
+});
+
 module.exports = router;
