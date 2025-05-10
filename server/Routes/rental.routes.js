@@ -43,5 +43,22 @@ router.post('/', async (req, res) => {
       res.status(500).json({ error: 'Failed to create rental' });
     }
   });
+  
+// PUT: Update a rental (e.g., to mark it as returned)
+router.put('/:id', async (req, res) => {
+  const { returned } = req.body;
+
+  if (returned === undefined) {
+    return res.status(400).json({ error: 'Returned status is required' });
+  }
+
+  try {
+    const rental = await Rental.findByIdAndUpdate(req.params.id, { returned }, { new: true });
+    if (!rental) return res.status(404).json({ error: 'Rental not found' });
+    res.json(rental);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update rental' });
+  }
+});
 
 module.exports = router;
