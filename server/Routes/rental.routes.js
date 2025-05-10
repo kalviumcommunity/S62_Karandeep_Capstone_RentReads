@@ -21,4 +21,27 @@ router.get('/user/:userId', async (req, res) => {
   }
 });
 
+// POST: Create a new rental
+router.post('/', async (req, res) => {
+    const { userId, bookId } = req.body;
+  
+    if (!userId || !bookId) {
+      return res.status(400).json({ error: 'User ID and Book ID are required' });
+    }
+  
+    try {
+      const newRental = new Rental({
+        userId,
+        bookId,
+        rentedAt: new Date(),
+        lastOpenedAt: new Date()
+      });
+  
+      await newRental.save();
+      res.status(201).json(newRental);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to create rental' });
+    }
+  });
+
 module.exports = router;

@@ -38,4 +38,21 @@ router.get('/search/q', async (req, res) => {
   }
 });
 
+// POST: Add a new book
+router.post('/', async (req, res) => {
+    const { title, author, pdfUrl, coverUrl } = req.body;
+  
+    if (!title || !author || !pdfUrl) {
+      return res.status(400).json({ error: 'Title, author, and PDF URL are required' });
+    }
+  
+    try {
+      const newBook = new Book({ title, author, pdfUrl, coverUrl });
+      await newBook.save();
+      res.status(201).json(newBook);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to add book' });
+    }
+  });
+
 module.exports = router;

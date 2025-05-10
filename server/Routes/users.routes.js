@@ -22,4 +22,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// POST: Register a new user
+router.post('/', async (req, res) => {
+    const { name, email } = req.body;
+  
+    if (!name || !email) {
+      return res.status(400).json({ error: 'Name and email are required' });
+    }
+  
+    try {
+      const userExists = await User.findOne({ email });
+      if (userExists) return res.status(409).json({ error: 'Email already in use' });
+  
+      const newUser = new User({ name, email });
+      await newUser.save();
+      res.status(201).json(newUser);
+    } catch (err) {
+      res.status(500).json({ error: 'Failed to create user' });
+    }
+  });
+
 module.exports = router;
