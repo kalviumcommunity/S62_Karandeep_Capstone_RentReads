@@ -9,18 +9,13 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  genre: {
-    type: String,
+  pdfUrl: {
+    type: String, // URL or file path for the PDF
     required: true,
   },
-  type: {
-    type: String, // e.g., "PDF" or "Link"
-    required: true,
-  },
-  uploadedBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+  coverUrl: {
+    type: String, // Optional URL for the book cover image
+    default: null,
   },
   createdAt: {
     type: Date,
