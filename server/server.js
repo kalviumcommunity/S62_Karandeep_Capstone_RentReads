@@ -1,29 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
+const cors = require('cors'); // Import cors
 const userRoutes = require('./Routes/users.routes');
-const rentalRoutes = require('./Routes/rental.routes');
-const bookRoutes = require('./Routes/books.routes'); 
 
 dotenv.config({ path: './config/.env' });
 
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Middleware
 app.use(express.json());
+app.use(cors()); // Enable CORS for all routes
 
+// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Failed to connect to MongoDB:', err));
 
-app.use('/users', userRoutes); // User-related routes
-app.use('/rentals', rentalRoutes); // Rental-related routes
-app.use('/books', bookRoutes); // Book-related routes
-
-app.get('/', (req, res) => {
-  res.send('Welcome to the RentReads API');
-});
+// Routes
+app.use('/users', userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
