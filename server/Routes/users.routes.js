@@ -3,21 +3,28 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/user.schema');
 const router = express.Router();
+const dotenv = require('dotenv');
+dotenv.config({ path: './config/.env' });
 
-// GET all users
+// Middleware to check for JWT_SECRET
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET is not defined in environment variables');
+}
+
+// GET all users (password excluded)
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find().select('-password').lean();
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch users' });
   }
 });
 
-// GET a user by ID
+// GET a user by ID (password excluded)
 router.get('/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id).select('-password').lean();
     if (!user) return res.status(404).json({ error: 'User not found' });
     res.json(user);
   } catch (err) {
@@ -42,33 +49,23 @@ router.post('/register', async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create a new user
+    // Create and save user
     const newUser = new User({ name, email, password: hashedPassword });
     await newUser.save();
 
-    // Generate a JWT token
+    // Generate JWT
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(201).json({ token, user: { id: newUser._id, name: newUser.name, email: newUser.email } });
+    res.status(201).json({
+      token,
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email
+      }
+    });
   } catch (err) {
     res.status(500).json({ error: 'Failed to create user' });
-  }
-});
-
-// PUT: Update a user
-router.put('/:id', async (req, res) => {
-  const { name, email } = req.body;
-
-  if (!name || !email) {
-    return res.status(400).json({ error: 'Name and email are required' });
-  }
-
-  try {
-    const user = await User.findByIdAndUpdate(req.params.id, { name, email }, { new: true });
-    if (!user) return res.status(404).json({ error: 'User not found' });
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update user' });
   }
 });
 
@@ -85,16 +82,46 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ error: 'Invalid email or password' });
 
-    // Compare the password
+    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ error: 'Invalid email or password' });
 
-    // Generate a JWT token
+    // Generate JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).json({ token, user: { id: user._id, name: user.name, email: user.email } });
+    res.status(200).json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
   } catch (err) {
     res.status(500).json({ error: 'Failed to log in' });
+  }
+});
+
+// PUT: Update a user (name/email)
+router.put('/:id', async (req, res) => {
+  const { name, email } = req.body;
+
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email are required' });
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { name, email },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!user) return res.status(404).json({ error: 'User not found' });
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update user' });
   }
 });
 
