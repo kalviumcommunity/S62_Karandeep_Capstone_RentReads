@@ -89,5 +89,7 @@ Many individuals possess digital books (e.g., PDFs) that they wish to share, but
 
 
 
-
 DEPLOYMENT FRONTEND = https://rentreads.netlify.app
+
+BACKEND DEPLOYMENT = https://s62-karandeep-capstone-rentreads.onrender.com
+
