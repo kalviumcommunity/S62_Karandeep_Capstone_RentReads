@@ -88,3 +88,6 @@ Many individuals possess digital books (e.g., PDFs) that they wish to share, but
 	- Deploy on a platform like AWS, Heroku, or Vercel.
 
 
+
+
+DEPLOYMENT FRONTEND = https://rentreads.netlify.app
