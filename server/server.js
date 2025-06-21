@@ -1,3 +1,4 @@
+// This is the main entry point for the RentReads API server
 const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');

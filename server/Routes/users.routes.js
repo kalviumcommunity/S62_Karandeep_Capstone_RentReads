@@ -1,3 +1,4 @@
+// This file contains the routes for user management, including fetching all users, fetching a user by ID, registering a new user, and updating an existing user.
 const express = require('express');
 const router = express.Router();
 const User = require('../Models/user.schema');
