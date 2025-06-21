@@ -1,5 +1,5 @@
+// This file defines the Mongoose schema for a book in a library system.
 const mongoose = require('mongoose');
-
 const bookSchema = new mongoose.Schema({
   title: {
     type: String,

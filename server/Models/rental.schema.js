@@ -1,3 +1,4 @@
+// This file defines the schema for rental records in a library system.
 const mongoose = require('mongoose');
 
 const rentalSchema = new mongoose.Schema({

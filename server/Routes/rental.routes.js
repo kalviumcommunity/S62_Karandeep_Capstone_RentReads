@@ -1,3 +1,4 @@
+// This file defines the routes for managing book rentals in a library system.
 const express = require('express');
 const router = express.Router();
 const Rental = require('../Models/rental.schema');  
